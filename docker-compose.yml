@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py" ,"runserver", "0.0.0.0:8000"]
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    volumes:
+      - media_data:/media/
+    depends_on:
+      - db
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=django
+
+volumes:
+  postgres_data:
+  media_data:
+    
