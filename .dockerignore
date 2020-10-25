@@ -2,34 +2,34 @@ env/
 postgres_data/
 minio_data/
 
-frontend/node_modules
-frontend/build
+book_frontend/node_modules
+book_frontend/build
 
-backend/*.pyc
-backend/*.pyo
-backend/*.mo
-backend/*.db
-backend/*.css.map
-backend/*.egg-info
-backend/*.sql.gz
-backend/.cache
-backend/.project
-backend/.idea
-backend/.pydevproject
-backend/.idea/workspace.xml
-backend/.DS_Store
-backend/.sass-cache
-backend/.vagrant/
-backend/__pycache__
-backend/dist
-backend/docs
-backend/env
-backend/logs
-backend/src/{{ project_name }}/settings/local.py
-backend/src/node_modules
-backend/web/media
-backend/web/static/CACHE
-backend/stats
+book_site/*.pyc
+book_site/*.pyo
+book_site/*.mo
+book_site/*.db
+book_site/*.css.map
+book_site/*.egg-info
+book_site/*.sql.gz
+book_site/.cache
+book_site/.project
+book_site/.idea
+book_site/.pydevproject
+book_site/.idea/workspace.xml
+book_site/.DS_Store
+book_site/.sass-cache
+book_site/.vagrant/
+book_site/__pycache__
+book_site/dist
+book_site/docs
+book_site/env
+book_site/logs
+book_site/src/{{ project_name }}/settings/local.py
+book_site/src/node_modules
+book_site/web/media
+book_site/web/static/CACHE
+book_site/stats
 
 .git/
 .dockerignore
