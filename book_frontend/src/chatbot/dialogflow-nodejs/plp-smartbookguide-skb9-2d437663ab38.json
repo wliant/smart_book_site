@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "plp-smartbookguide-skb9",
+  "private_key_id": "2d437663ab38bfeb77fe11483f8024c5e3d6f794",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDkeag8Z0yNOHYa\ns2AzVRuvqyt75ns5FXnVkrlgAU2c5XorPOEWziEs1GGUpdSloMSS68pfvD4OppmH\nqayPIRnXGD7/IuA6VekgjsjwHVkAdz7tIuVMTXwi6q64SnfaaQMDyMJkfvNcDR/2\nfJLw2iQGw23aHRs7H7bCSU/Bkaqe87Ba1dChRXFWlCpwTADoleWw8VwC3av19vVR\nfU6zucpjUCY+9ImzVQJICoX/6UQTAm94mvwT72s7NZ+2VTUClZUm3MCcRpsIFF6i\nNyWgVc2n07TjMEsduCAEuZrjOGTMqua2a5o3MSkRCv8M60L3B4H6fAFink3RiNbl\nkQtlPMhlAgMBAAECggEAIpkSox0AcGUzq0zs/TD+6Y3p3pATKlyIb9FRbYqc+myc\noLYOHuI1j2CU60nmZvNuuRHoOjGbEyRi3PKSfTUlwNb82S1ql6LhU+sTXhsPmny0\nRHwzjWexa+cucJ1kQ2iCCp1o5Id96jtZkv2f0cWyzWxkMvKT6FLf3dF0uKsKk5mp\ni+qy/MVw0GF/0FrKPyEyjfDC81Cv0chK3dttHOtQZGP/dtLaGe7rZo4bpHuTsaFu\nEGkLopm5MbXW4VcMb98Pjq7uGRPzQNqRxPfSl/qw87eJkKAQ4uOkQ+6OFouhm1lK\nbtlym25GygOmPnqGnhSCc/bcnMrmn5byoasTMlNO0QKBgQD+ltfTilTaHkNBv4Kh\nkkTrBlru1cemqe8yd1bBBXTJ5wUGncnkid34aws9t/RLgn8cU6hb1jGesyxtvCsa\nV1i/wwTnKMbyQO9pyrVJ/UFUXhN2XGUqMcDbj7iJyH5NLKJ7JDYSSJkaiQZByyja\nsw5Xxs0UvqUI7FGRLwJ4cxVTlQKBgQDlvcTkmqWC0GDYcXgYTh8MI6F9MxR044Ek\n3Ub1rctRJHgqg2w7XiAyNuGMTRw/EH5hQ9W9iNeHWY7lmvSak9QPmPTKgkwraS7I\nAin9o/Zq3u62vebnS8TvxNOC+cE23s1cXhlZwumXITtcX1vuvZu1DyfEdCld532S\nbPa59sptkQKBgBY7X++GJfDCMcddDPBFEKWhcXFn0753Gn9Csp26dz9mYCb6wnWl\noG+gEWQ7Wyb451a2633Rj5W3Ocr/YpgzRnnAcv4orm7bQszvObOTXRAcAwEUAnWT\n0K6bt1a43mao3it4twwTsOMDUjuOnSuz9S2vG5uTJmBIGrtd6o5QJm2dAoGAcsY0\nqFSOHWVHDLrbWaElp6XhVq//J0pFSYp2meRib749fle76YjjotKCKdqYIvV1fdgq\n3w6PRmI6noCkdNknl0c9/DHOJd3dbjSOj9WrFMcdERScV68lyvdVB9kIawYyKFQm\nbA6RLlx+0G4feo0lTfYtUtsJk41D0bQ4Kr2dcdECgYAETK0/RGumtjz7kL+xh2uB\nE4AGz6R+EjxHahU803IUNaN3fVcxnM2LIXIchmUH1VRludObtArw5MV0pBsTjmrC\nLmjuSOxeMaHMTS17hvI69JfQo9CWp9i5GDFrwwbdhSRGD4aPyaQ9DOXnNNHz4Kot\ngXS/Gvsc4f5NjJiy2JQWfw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-api-admin@plp-smartbookguide-skb9.iam.gserviceaccount.com",
+  "client_id": "109287544811364215030",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-api-admin%40plp-smartbookguide-skb9.iam.gserviceaccount.com"
+}
