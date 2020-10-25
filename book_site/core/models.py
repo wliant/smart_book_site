@@ -21,8 +21,16 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        unique_together = ('author', 'title')
+
 
 class BookContent(models.Model):
+    '''
+    Many to One relationship with book. i.e. one book has multiple book content.
+    Each content represents a paragraph of the book.
+    sequence_num track the ordering of the paragraph
+    '''
     book = models.ForeignKey(Book, related_name='paragraphs', on_delete=models.CASCADE, db_index=True)
     sequence_num = models.IntegerField()
     content = models.TextField()

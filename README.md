@@ -26,3 +26,6 @@ https://drive.google.com/file/d/1pZooiSj1wrT0-Gxp94lzdmrdK7V8tN8k/view?usp=shari
 
 #### to access database client
 `docker-compose exec db psql -U django -d django`
+
+#### stop server
+`docker-compose down`
