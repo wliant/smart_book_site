@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -12,10 +13,8 @@ import FeaturedPost from './FeaturedPost';
 import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import post1 from './blog-post.1.md';
-import post2 from './blog-post.2.md';
-import post3 from './blog-post.3.md';
 import Chatbot from './../chatbot/Chatbot';
+import CoreService from './../services/CoreService';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -25,16 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const sections = [
-  { title: 'Technology', url: '#' },
-  { title: 'Design', url: '#' },
-  { title: 'Culture', url: '#' },
-  { title: 'Business', url: '#' },
-  { title: 'Politics', url: '#' },
-  { title: 'Opinion', url: '#' },
-  { title: 'Science', url: '#' },
-  { title: 'Health', url: '#' },
-  { title: 'Style', url: '#' },
-  { title: 'Travel', url: '#' },
+  { title: 'Browse', url: '#' },
+  { title: 'My Books', url: '#' },
 ];
 
 const mainFeaturedPost = {
@@ -46,26 +37,9 @@ const mainFeaturedPost = {
   linkText: 'Continue reading…',
 };
 
-const featuredPosts = [
-  {
-    title: 'Featured post',
-    date: 'Nov 12',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
-    imageText: 'Image Text',
-  },
-  {
-    title: 'Post title',
-    date: 'Nov 11',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
-    imageText: 'Image Text',
-  },
-];
-
-const posts = [post1, post2, post3];
+const posts = ["Not surprisingly, Peter's iPhone now pinged with an incoming reply from Katherine.",
+  "Mal'akh put the car back in park and stared out at the distant silhouette of the SMSC. Ten minutes. Peter Solomon's sprawling warehouse housed over thirty million treasures, but Mal'akh had come here tonight to obliterate only the two most valuable.",
+  "All of Katherine Solomon's research."];
 
 const sidebar = {
   title: 'About',
@@ -93,17 +67,26 @@ const sidebar = {
 
 export default function Blog() {
   const classes = useStyles();
+  const [books, setBooks] = useState({});
+
+  useEffect(() => {
+    new CoreService().getBooks().then(e => {
+      console.log(e);
+      setBooks(e);
+    });
+  }, []);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} />
+        <Header title="Smart Book" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
+            {books.results &&
+            books.results.map((book) => (
+              <FeaturedPost key={book.id} book={book} />
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>

@@ -24,9 +24,9 @@ function Main(props) {
       </Typography>
       <Divider />
       {posts.map((post) => (
-        <Markdown className={classes.markdown} key={post.substring(0, 40)}>
-          {post}
-        </Markdown>
+          <Typography variant="body1" paragraph>
+              {post}
+          </Typography>
       ))}
     </Grid>
   );

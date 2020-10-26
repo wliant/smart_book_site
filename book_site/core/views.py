@@ -8,9 +8,16 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework import filters
+
+
+class DynamicSearchFilter(filters.SearchFilter):
+    def get_search_fields(self, view, request):
+        return request.GET.getlist('search_fields', [])
 
 
 class BookViewSet(viewsets.ModelViewSet):
+    filter_backends = (DynamicSearchFilter,)
     queryset = Book.objects.all()
     permission_classes = (permissions.AllowAny,)
 
@@ -19,6 +26,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 class BookContentViewSet(viewsets.ModelViewSet):
+    filter_backends = (DynamicSearchFilter,)
     queryset = BookContent.objects.all()
     permission_classes = (permissions.AllowAny,)
 
@@ -27,6 +35,7 @@ class BookContentViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    filter_backends = (DynamicSearchFilter,)
     queryset = Category.objects.all()
     permission_classes = (permissions.AllowAny,)
 

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 
 class BookSerializer(serializers.ModelSerializer):
+    categories = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Category.objects.all())
+
     class Meta:
         model = Book
         fields = "__all__"

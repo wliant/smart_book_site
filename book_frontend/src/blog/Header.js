@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   toolbarSecondary: {
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     overflowX: 'auto',
   },
   toolbarLink: {

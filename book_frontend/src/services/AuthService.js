@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+const base_url = 'http://localhost:8000/api';
 export default class AuthService {
 
     logout = () => {
@@ -12,10 +12,9 @@ export default class AuthService {
         const formData = new FormData();
         formData.set("username", username);
         formData.set("password", password);
-        const base = "http://localhost:8000";
         const authorization = await axios({
             method: "POST",
-            url: `${base}/api/auth/token/login/`,
+            url: `${base_url}/auth/token/login/`,
             data: formData,
             config: {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -31,11 +30,10 @@ export default class AuthService {
         formData.set("password", password);
         formData.set("first_name", firstname);
         formData.set("last_name", lastname);
-        const base = "http://localhost:8000";
 
         const registration = await axios ({
             method: "POST",
-            url: `${base}/api/auth/users/`,
+            url: `${base_url}/auth/users/`,
             data: formData,
             config: {
                 headers: { "Content-Type": "multipart/form-data" }

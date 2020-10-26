@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 function FeaturedPost(props) {
   const classes = useStyles();
-  const { post } = props;
+  const { book: {author, story_line, thumbnail, title} } = props;
 
   return (
     <Grid item xs={12} md={6}>
@@ -32,13 +32,13 @@ function FeaturedPost(props) {
           <div className={classes.cardDetails}>
             <CardContent>
               <Typography component="h2" variant="h5">
-                {post.title}
+                {title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {post.date}
+                {author}
               </Typography>
               <Typography variant="subtitle1" paragraph>
-                {post.description}
+                {story_line}
               </Typography>
               <Typography variant="subtitle1" color="primary">
                 Continue reading...
@@ -48,8 +48,7 @@ function FeaturedPost(props) {
           <Hidden smDown>
             <CardMedia
               className={classes.cardMedia}
-              image={post.image}
-              title={post.imageText}
+              image={thumbnail}
             />
           </Hidden>
         </Card>
