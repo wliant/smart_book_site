@@ -14,14 +14,14 @@ export default class AuthService {
         formData.set("password", password);
         const authorization = await axios({
             method: "POST",
-            url: `${base_url}/auth/token/login/`,
+            url: `${base_url}/auth/token/`,
             data: formData,
             config: {
                 headers: { "Content-Type": "multipart/form-data" }
             }
         });
 
-        return authorization.data.auth_token;
+        return authorization.data.token;
     }
 
     signup = async (firstname, lastname, username, password) => {
@@ -33,7 +33,7 @@ export default class AuthService {
 
         const registration = await axios ({
             method: "POST",
-            url: `${base_url}/auth/users/`,
+            url: `${base_url}/auth/signup/`,
             data: formData,
             config: {
                 headers: { "Content-Type": "multipart/form-data" }

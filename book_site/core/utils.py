@@ -1,13 +1,3 @@
-from core.serializers import UserSerializer
-
-
-def my_jwt_response_handler(token, user=None, request=None):
-    return {
-        'token': token,
-        'user': UserSerializer(user, context={'request': request}).data
-    }
-
-
 def decode_base64_file(data):
     def get_file_extension(file_name, decoded_file):
         import imghdr

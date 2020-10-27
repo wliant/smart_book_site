@@ -26,11 +26,7 @@ SECRET_KEY = '^4=o%-xau7dv6+&2mh!*5m1#f^^6+v--5#8y1=10qtq2a92f-_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '08bb755f35af.ngrok.io',
-    '127.0.0.1',
-    'localhost'
-]
+ALLOWED_HOSTS = '*'
 
 
 # Application definition
@@ -45,10 +41,8 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser',
     'api.apps.ApiConfig',
     'core.apps.CoreConfig',
-    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -66,7 +60,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny', ),
-
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication'
@@ -76,7 +69,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,8 +149,4 @@ STATICFILES_DIRS = [
     os.path.join(REACT_APP_DIR, 'build', 'static'),
 ]
 
-CORS_ORIGIN_ALLOW_ALL  = True
-
-JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'core.utils.my_jwt_response_handler'
-}
+CORS_ORIGIN_ALLOW_ALL = True

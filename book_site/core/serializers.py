@@ -1,6 +1,14 @@
-from core.models import Book, BookContent, Category
+from core.models import *
 from rest_framework import serializers
 from django.contrib.auth.models import User
+
+
+class BookAccessSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = BookAccess
+        fields = "__all__"
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -20,13 +28,22 @@ class BookContentSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["created", "name", "book_count"]
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ["first_name", "last_name", "username", "password"]
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(is_active=True, **validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+
 
 
 

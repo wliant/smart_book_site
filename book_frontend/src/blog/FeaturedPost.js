@@ -23,22 +23,22 @@ const useStyles = makeStyles({
 
 function FeaturedPost(props) {
   const classes = useStyles();
-  const { book: {author, story_line, thumbnail, title} } = props;
+  const { book, onClick } = props;
 
   return (
     <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="#">
+      <CardActionArea component="a" onClick={() => onClick(book)}>
         <Card className={classes.card}>
           <div className={classes.cardDetails}>
             <CardContent>
               <Typography component="h2" variant="h5">
-                {title}
+                {book.title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {author}
+                {book.author}
               </Typography>
               <Typography variant="subtitle1" paragraph>
-                {story_line}
+                {book.story_line}
               </Typography>
               <Typography variant="subtitle1" color="primary">
                 Continue reading...
@@ -48,7 +48,7 @@ function FeaturedPost(props) {
           <Hidden smDown>
             <CardMedia
               className={classes.cardMedia}
-              image={thumbnail}
+              image={book.thumbnail}
             />
           </Hidden>
         </Card>
@@ -58,13 +58,8 @@ function FeaturedPost(props) {
 }
 
 FeaturedPost.propTypes = {
-  post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    imageText: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
+  book: PropTypes.any.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default FeaturedPost;

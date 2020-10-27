@@ -15,6 +15,7 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import Chatbot from './../chatbot/Chatbot';
 import CoreService from './../services/CoreService';
+import BookPage from "./BookPage";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -68,6 +69,7 @@ const sidebar = {
 export default function Blog() {
   const classes = useStyles();
   const [books, setBooks] = useState({});
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     new CoreService().getBooks().then(e => {
@@ -86,7 +88,7 @@ export default function Blog() {
           <Grid container spacing={4}>
             {books.results &&
             books.results.map((book) => (
-              <FeaturedPost key={book.id} book={book} />
+              <FeaturedPost key={book.id} book={book} onClick={(book) => setSelected(book)}/>
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>
@@ -98,6 +100,9 @@ export default function Blog() {
               social={sidebar.social}
             />
           </Grid>
+          {selected && (
+              <BookPage book={selected} />
+          )}
         </main>
       </Container>
       <Chatbot />

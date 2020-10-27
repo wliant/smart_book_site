@@ -73,6 +73,7 @@ export default function SignIn() {
     setLoading(true);
     new AuthService().login(username, password).then((token) => {
       localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
       setLoading(false);
       history.push("/");
     }).catch(() => {

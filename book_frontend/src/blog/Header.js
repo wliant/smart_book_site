@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyles();
   const { sections, title } = props;
+  const username = localStorage.getItem("username");
 
   return (
     <React.Fragment>
