@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path(r'api/', include('core.urls')),
     path('admin/', admin.site.urls),
+    path(r'webhook/', include('webhook.urls'))
 ]
 
 if settings.DEBUG:
