@@ -1,1 +1,1 @@
-cd src/chatbot/dialogflow-nodejs/ && node nodejs.js
+cd ./src/chatbot/dialogflow-nodejs/ && node nodejs.js
