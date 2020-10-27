@@ -7,6 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
+import AuthService from './../services/AuthService';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -32,7 +34,6 @@ function Header(props) {
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-        <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
           variant="h5"
@@ -46,9 +47,11 @@ function Header(props) {
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
-        </Button>
+        <RouterLink onClick={() => {new AuthService().logout()}} to="/auth/login">
+          <Button variant="outlined" size="small">
+            Log out
+          </Button>
+        </RouterLink>
       </Toolbar>
       <Toolbar
         component="nav"
