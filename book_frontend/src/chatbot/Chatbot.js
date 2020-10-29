@@ -13,7 +13,7 @@ export default function Chatbot() {
     }, []);
     
     const handleChatbotUserMessage = (newMessage) => {
-        fetch('/api/world', {
+        fetch('/api/dialogflow', {
             method: 'post', 
             headers: {
                 'Accept': 'application/json',
