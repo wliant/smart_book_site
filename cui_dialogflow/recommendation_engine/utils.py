@@ -77,7 +77,7 @@ def load_book_vector(vector_size = 256):
         for row in reader:
             vector = []
             for i in range(vector_size):
-                vector.append(row['w{}'.format(i)])
+                vector.append(float(row['w{}'.format(i)]))
             data[row['book_id']] = np.array(vector)
     return data
    
