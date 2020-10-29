@@ -23,6 +23,13 @@ class Book(models.Model):
         unique_together = ('author', 'title')
 
 
+class Review(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    writer = models.CharField(max_length=300)
+    content = models.TextField()
+    book = models.ForeignKey("Book", related_name="reviews", on_delete=models.CASCADE, db_index=True)
+
+
 class Category(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=300, unique=True)
