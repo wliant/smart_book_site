@@ -11,6 +11,14 @@ class BookAccessSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    book = serializers.ReadOnlyField(source='book.id')
+
+    class Meta:
+        model = Review
+        fields = "__all__"
+
+
 class BookSerializer(serializers.ModelSerializer):
     categories = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Category.objects.all())
 

@@ -30,6 +30,9 @@ book_site/src/node_modules
 book_site/web/media
 book_site/web/static/CACHE
 book_site/stats
+cui_dialogflow/*
+sentiment_mining_engine/*
+classification_training/*
 
 .git/
 .dockerignore
