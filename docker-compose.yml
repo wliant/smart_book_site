@@ -28,7 +28,7 @@ services:
     command: ["node", "nodejs.js"]
     ports:
         - 5000:5000
-    
+
 
 volumes:
   postgres_data:

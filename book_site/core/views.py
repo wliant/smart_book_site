@@ -1,5 +1,3 @@
-from rest_framework.pagination import PageNumberPagination
-
 from core.serializers import *
 from core.migration_serializers import *
 from core.models import *
@@ -18,8 +16,6 @@ class DynamicSearchFilter(filters.SearchFilter):
 
 
 class BookViewSet(viewsets.ModelViewSet):
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 30
     filter_backends = (DynamicSearchFilter,)
     queryset = Book.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
@@ -27,14 +23,12 @@ class BookViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return BookSerializer
 
-    def retrieve(self, request, pk=None):
-        super.retr
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user.username)
 
 
 class BookContentViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 10
     queryset = BookContent.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -44,17 +38,19 @@ class BookContentViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 10
     queryset = Review.objects.all()
+    pagination_class = None
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
         return ReviewSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(writer=self.request.user.username)
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    pagination_class = None;
+    pagination_class = None
     filter_backends = (DynamicSearchFilter,)
     queryset = Category.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
