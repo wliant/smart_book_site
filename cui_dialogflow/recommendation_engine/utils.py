@@ -45,6 +45,7 @@ def prepare_book_data():
     cat_enc = le.fit_transform(cats)
     book_list = book_list.assign(view_count_normalized=x_scaled.flatten())
     book_list = book_list.assign(category_encode=cat_enc)
+    book_list = book_list.fillna(0.0)
     # book_list_sorted = book_list.sort_values('view_count', kind = 'mergesort', ascending=False)
     return book_list, scaler, le
 
