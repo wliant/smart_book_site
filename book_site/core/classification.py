@@ -2,7 +2,10 @@ import tensorflow as tf
 from tensorflow import keras as ks
 from core.models import *
 import numpy as np
-
+import spacy
+import pickle
+from gensim.models import LdaModel
+from nltk.tokenize import word_tokenize
 
 dimension = 20
 
@@ -15,6 +18,8 @@ x = ks.layers.Dense(9, activation='sigmoid', name='prediction_layer')(x)
 model = ks.Model(i, x)
 
 weights_file = "/usr/classification.hdf5"
+
+dictionary = pickle.load(open("/usr/dictionary.pkl", "rb"))
 
 model.load_weights(weights_file)
 
@@ -30,11 +35,15 @@ class_mapping = [
     "young-adult"
 ]
 
-
+def get_topic_distribution(unseen_text):
+    ldamallet = LdaModel.load("/usr/lda_model")
+    tokens = tokens= word_tokenize(unseen_text)
+    return ldamallet[dictionary.doc2bow(tokens)] # get topic probability distribution for a documen
 
 
 def convert(text):
-    return [[0 for _ in range(dimension)]]
+    v = get_topic_distribution(text)
+    return [[a[1] for a in v]]
 
 
 def classify(book_id):
