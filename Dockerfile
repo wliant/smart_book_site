@@ -16,6 +16,15 @@ COPY ./book_frontend/ ./
 
 RUN yarn build
 
+#tensorflow
+FROM tensorflow/tensorflow:latest
+WORKDIR /usr/src/app
+
+RUN pip install --upgrade pip
+COPY ./book_site/requirements_tensorflow.txt .
+
+RUN pip install -r requirements_tensorflow.txt
+
 #backend
 FROM python:3.8.3-alpine
 

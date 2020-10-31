@@ -67,6 +67,8 @@ class RecommendationEngine:
     # categories = list of category from which the books to be recommended, it is list of string: ['romance']
     # output is list of book titles, ordered from best score to least score
     def get_recommendation_by_categories(self, categories= [], length=5):
+        if len(categories) == 0:
+            return self.get_recommendation(length=length, samples=2500)
         row_idx = self._get_idx_by_categories(categories)
         scores = self._calculate_recommendation_score_with_row_ids(row_idx)
         top_scorers_idx = np.flip(np.argsort(scores.flatten())[int(-1*length):])
@@ -183,7 +185,9 @@ class RecommendationEngine:
                     book_cat_count += 1
             book_cat_counts.append(book_cat_count)
         return np.array(res), np.array(book_cat_counts)
+
     
+
 if __name__ == '__main__':
     r = RecommendationEngine(user_model_fname = 'model/user_preference_model.h5')
     print('category index: {}'.format(r.category_le.classes_))
