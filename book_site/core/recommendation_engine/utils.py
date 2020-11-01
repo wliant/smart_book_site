@@ -4,9 +4,12 @@ import re
 import numpy as np
 from sklearn import preprocessing
 
+base_path_data = '/usr/src/app/core/recommendation_engine/data'
+base_path_model = '/usr/src/app/core/recommendation_engine/model'
+
 def prepare_book_data():
-    book_list = pd.read_csv('data/books_list.csv', header=0)
-    sentiment_list =  pd.read_csv('data/goodreads_rating_with_sentiment.csv', header=0)
+    book_list = pd.read_csv('{}/books_list.csv'.format(base_path_data), header=0)
+    sentiment_list =  pd.read_csv('{}/goodreads_rating_with_sentiment.csv'.format(base_path_data), header=0)
     sentiment_list = sentiment_list.drop_duplicates(subset=['old_title'], keep='first')
     sentiment_list = sentiment_list.drop(['old_id', 'new_id', 'new_title', 'image_url', 'small_image_url', 'author', 'author_id'], axis = 1)
     book_list = book_list.set_index('title').join(sentiment_list.set_index('old_title'))
@@ -47,7 +50,7 @@ def save_book_vector(book_ids, vector_embeds, first_time = False):
     mode = 'a'
     if first_time:
         mode = 'w'
-    with open('model/book_vector_embed.csv',mode, newline='') as csvfile:
+    with open('{}/book_vector_embed.csv'.format(base_path_model),mode, newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         if first_time:
             writer.writeheader()
@@ -55,7 +58,7 @@ def save_book_vector(book_ids, vector_embeds, first_time = False):
 
 def load_book_vector(vector_size = 256):
     data = {}
-    with open('model/book_vector_embed.csv', newline='') as csvfile:
+    with open('{}/book_vector_embed.csv'.format(base_path_model), newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             vector = []

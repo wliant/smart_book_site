@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import filters
+from core.recommendation_engine.recommender import *
 
 
 class DynamicSearchFilter(filters.SearchFilter):
@@ -19,6 +20,12 @@ class BookViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
     queryset = Book.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
+
+    recommender = RecommendationEngine()
+    print('get popular book recommendation: ')
+    print(recommender.get_popular_recommendation(length = 10, samples = 5000))
+    print('get user preferred book recommendation: ')
+    print(recommender.get_recommendation_by_categories(categories=['romance'], length = 10))
 
     def get_serializer_class(self):
         return BookSerializer
@@ -98,9 +105,10 @@ def create_auth(request):
 @permission_classes([permissions.IsAuthenticated])
 def get_recommendation(request):
     books = Book.objects.all().order_by('-views')[:4]
-    serializer = BookSerializer(books, many=True)
-
-    return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+    results = []
+    for book in books:
+        results.append(BookSerializer(book))
+    return Response(results, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -109,7 +117,7 @@ def categorize(request):
     book_id = request.query_params["book"]
 
     book = Book.objects.get(pk=book_id)
-    before = book.categories.all()
+    before = book.categories
     for cat in before:
         book.categories.remove(cat)
 
