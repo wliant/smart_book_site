@@ -1,26 +1,8 @@
 import csv
-import gensim.models as g
-import gensim
-import smart_open
 import pandas as pd
-import os
 import re
 import numpy as np
 from sklearn import preprocessing
-
-
-def read_novel(fname, skip_interval=1):
-    with smart_open.open(fname, encoding="utf-8") as f:
-        tokens = []
-        c = 1
-        for i, line in enumerate(f):
-            new_tokens = gensim.utils.simple_preprocess(line)
-            if len(tokens) + len(new_tokens) > 256:
-                if c%skip_interval == 0:
-                    yield gensim.models.doc2vec.TaggedDocument(tokens, [0])
-                tokens = []
-                c += 1
-            tokens.extend(new_tokens)
 
 def prepare_book_data():
     book_list = pd.read_csv('data/books_list.csv', header=0)

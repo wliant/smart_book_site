@@ -1,10 +1,3 @@
-import csv
-import gensim.models as g
-import gensim
-import smart_open
-import pandas as pd
-import os
-import re
 import numpy as np
 from sklearn.model_selection import train_test_split
 import random
@@ -13,17 +6,13 @@ from keras.models import Model
 from keras.layers import Dense
 from keras.models import load_model
 from keras.optimizers import Adam
-from utils import load_book_vector, prepare_book_data
-from doc2vec import NovelDoc2Vec
+from core.recommendation_engine.utils import load_book_vector, prepare_book_data
 
 book_features = ['category_encode', 'view_count_normalized', 'average_rating', 'v_mean_compound', 'v_percentage_polarity_review_negative', 'v_percentage_polarity_review_positive' ]
 
 
 class RecommendationEngine:
     def __init__(self, user_model_fname = 'model/default_recommend_model.h5', base_model_fname = 'model/default_recommend_model.h5' ):
-        # doc2vec
-        self.book2vec = NovelDoc2Vec()
-        self.book2vec.load_model(model_fname = 'model/NovelDoc2Vec-3.model')
         # recommendation engine
         self.recommend_model = load_model(user_model_fname)
         self.base_model = load_model(base_model_fname)
