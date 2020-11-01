@@ -119,8 +119,7 @@ function BookViewer(props) {
                 setCategories(e.categories);
             });
         });
-    }
-}
+    };
 
     const closeSnackBar = (event, reason) => {
         if (reason === 'clickaway') {
