@@ -1,6 +1,8 @@
 .rcw-conversation-container .rcw-header {
     color: #fff;
     background-color: #808080;
+    background-image: url("https://image.freepik.com/free-vector/halloween-background-flat-design_52683-43845.jpg");
+    background-size: 100% 130%;
 }
 
 .rcw-launcher {

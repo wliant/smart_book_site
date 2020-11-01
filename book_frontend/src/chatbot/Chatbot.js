@@ -2,7 +2,8 @@ import React , {useEffect } from 'react';
 
 import { Widget , addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
-import logo from '../logo.svg';
+import logo from '../librarian.png';
+import smart_book_logo from '../smart_book.png';
 
 import './chatbot_style.css';
 import axios from 'axios';
@@ -51,9 +52,9 @@ export default function Chatbot() {
         <Widget 
             handleNewUserMessage={handleChatbotUserMessageAxios}
             profileAvatar={logo}
-            titleAvatar={logo}
-            title="Book Chatbot"
-            subtitle="please be patient..."
+            titleAvatar={smart_book_logo}
+            title="Smart Book Assistant"
+            subtitle="feel free to ask about books"
             showTimeStamp={false}
           />
     )
