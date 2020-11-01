@@ -45,7 +45,7 @@ def webhook(request):
             print('get user preferred book recommendation: ')
             print(recommender.get_recommendation_by_categories(
                 categories=[cat], length=10))
-            list_of_books = recommender.get_recommendation_by_categories(categories=[bookgenre], length=10)
+            list_of_books = recommender.get_recommendation_by_categories(categories=[cat], length=10)
 
         fulfillmentText = 'Alright, we found ' + str(len(list_of_books)) + ' books to recommend, they are: '+str(list_of_books)
 
