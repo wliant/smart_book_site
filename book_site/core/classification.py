@@ -54,7 +54,7 @@ def classify(book_id):
     category = class_mapping[np.argmax(result)]
 
     book = Book.object.get(pk=book_id)
-    before = book.categories
+    before = book.categories.all()
     for cat in before:
         book.categories.remove(cat)
 
