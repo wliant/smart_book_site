@@ -42,6 +42,17 @@ class BookContentViewSet(viewsets.ModelViewSet):
         return BookContentSerializer
 
 
+class ReviewViewSet(viewsets.ModelViewSet):
+    filter_backends = (DynamicSearchFilter,)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
+    queryset = Review.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_serializer_class(self):
+        return ReviewSerializer
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     pagination_class = None;
     filter_backends = (DynamicSearchFilter,)

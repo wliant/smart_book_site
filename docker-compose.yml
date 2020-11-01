@@ -21,6 +21,14 @@ services:
       - POSTGRES_USER=django
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=django
+  nodejs:
+    build:
+        context: .
+        dockerfile: ./NodejsDockerfile
+    command: ["node", "nodejs.js"]
+    ports:
+        - 5000:5000
+    
 
 volumes:
   postgres_data:

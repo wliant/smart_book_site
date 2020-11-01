@@ -5,6 +5,7 @@ import 'react-chat-widget/lib/styles.css';
 import logo from '../logo.svg';
 
 import './chatbot_style.css';
+import axios from 'axios';
 
 
 export default function Chatbot() {
@@ -12,10 +13,28 @@ export default function Chatbot() {
         addResponseMessage('Welcome to our page! Feel free to chat with me about book.');
     }, []);
     
+    const handleChatbotUserMessageAxios = (newMessage) => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin' : true,
+            'Access-Control-Allow-Credentials': true
+        }
+        axios.post(
+            `http://localhost:5000/api/dialogflow`,
+            {user_input: newMessage}, {headers:headers}
+        ).then(function(res) {
+            addResponseMessage(res.data['response']);
+        }).catch(function(error){console.log(error)})
+    };
+    
     const handleChatbotUserMessage = (newMessage) => {
-        fetch('/api/world', {
+        fetch('http://localhost:5000/api/dialogflow', {
             method: 'post', 
+            mode: 'no-cors',
             headers: {
+                'Access-Control-Allow-Origin': true,
+                'Access-Control-Allow-Credentials': true,
+                
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -30,7 +49,7 @@ export default function Chatbot() {
     
     return (
         <Widget 
-            handleNewUserMessage={handleChatbotUserMessage}
+            handleNewUserMessage={handleChatbotUserMessageAxios}
             profileAvatar={logo}
             titleAvatar={logo}
             title="Book Chatbot"
