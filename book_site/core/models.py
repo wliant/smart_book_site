@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 
 
 class BookAccess(models.Model):
@@ -14,7 +15,7 @@ class Book(models.Model):
     views = models.IntegerField(blank=True, null=True)
     story_line = models.TextField(blank=True, null=True)
     categories = models.ManyToManyField("Category")
-    thumbnail = models.ImageField()
+    thumbnail = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -28,6 +29,9 @@ class Review(models.Model):
     writer = models.CharField(max_length=300)
     content = models.TextField()
     book = models.ForeignKey("Book", related_name="reviews", on_delete=models.CASCADE, db_index=True)
+
+    class Meta:
+        ordering = ['-created']
 
 
 class Category(models.Model):
@@ -43,14 +47,23 @@ class Category(models.Model):
 
 
 class BookContent(models.Model):
-    '''
+    """
     Many to One relationship with book. i.e. one book has multiple book content.
     Each content represents a paragraph of the book.
     sequence_num track the ordering of the paragraph
-    '''
+    """
     book = models.ForeignKey(Book, related_name='paragraphs', on_delete=models.CASCADE, db_index=True)
     sequence_num = models.IntegerField()
     content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            seq = BookContent.objects.filter(book__id=self.book.id).aggregate(Max('sequence_num'))['sequence_num__max']
+            if seq:
+                self.sequence_num = seq + 1
+            else:
+                self.sequence_num = 1
+        super(BookContent, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['sequence_num']

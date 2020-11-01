@@ -48,7 +48,7 @@ def evaluate_review(review):
                 cat = aspectCat(sentence)      
                 cat_list.append(cat)
             except IndexError:
-                cat_list.append(overall)
+                cat_list.append('overall')
     flat_cat_list = [item for sublist in cat_list for item in sublist]
     sentence, predicted_sentiment = getSentiment(review)
     categorized_sentiment  = 'netural'

@@ -12,15 +12,18 @@ class BookAccessSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    book = serializers.ReadOnlyField(source='book.id')
+    writer = serializers.ReadOnlyField()
 
     class Meta:
         model = Review
-        fields = "__all__"
+        fields = ["id", "book", "content", "writer", "created"]
 
 
 class BookSerializer(serializers.ModelSerializer):
-    categories = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Category.objects.all())
+    categories = serializers.SlugRelatedField(many=True, slug_field='name',
+                                              queryset=Category.objects.all(), required=False)
+    author = serializers.ReadOnlyField()
+
 
     class Meta:
         model = Book
@@ -28,6 +31,8 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class BookContentSerializer(serializers.ModelSerializer):
+    sequence_num = serializers.ReadOnlyField()
+
     class Meta:
         model = BookContent
         fields = "__all__"

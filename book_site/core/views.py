@@ -1,5 +1,3 @@
-from rest_framework.pagination import PageNumberPagination
-
 from core.serializers import *
 from core.migration_serializers import *
 from core.models import *
@@ -18,8 +16,6 @@ class DynamicSearchFilter(filters.SearchFilter):
 
 
 class BookViewSet(viewsets.ModelViewSet):
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 30
     filter_backends = (DynamicSearchFilter,)
     queryset = Book.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
@@ -27,14 +23,12 @@ class BookViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return BookSerializer
 
-    def retrieve(self, request, pk=None):
-        super.retr
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user.username)
 
 
 class BookContentViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 10
     queryset = BookContent.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -44,17 +38,19 @@ class BookContentViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 10
     queryset = Review.objects.all()
+    pagination_class = None
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
         return ReviewSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(writer=self.request.user.username)
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    pagination_class = None;
+    pagination_class = None
     filter_backends = (DynamicSearchFilter,)
     queryset = Category.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
@@ -96,3 +92,31 @@ def create_auth(request):
         return Response(serialized.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_recommendation(request):
+    books = Book.objects.all().order_by('-views')[:4]
+    results = []
+    for book in books:
+        results.append(BookSerializer(book))
+    return Response(results, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def categorize(request):
+    book_id = request.query_params["book"]
+
+    book = Book.objects.get(pk=book_id)
+    before = book.categories
+    for cat in before:
+        book.categories.remove(cat)
+
+    c = Category.objects.get(name="Fantasy")
+    book.categories.add(c)
+    book.save()
+    print("categorized")
+
+    return HttpResponse(status=200)
