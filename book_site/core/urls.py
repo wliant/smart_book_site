@@ -13,6 +13,8 @@ router.register(r'reviews', views.ReviewViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path(r'migration/', views.migrate),
+    path(r'recommend/', views.get_recommendation),
+    path(r'categorize/', views.categorize),
     path(r'auth/signup/', views.create_auth),
     path(r'auth/token/', obtain_auth_token),
 ]

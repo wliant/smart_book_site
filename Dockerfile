@@ -49,6 +49,8 @@ RUN \
 RUN pip install -r requirements.txt
 
 COPY ./book_site/ ./
+COPY ./models/ /usr/
+
 RUN chmod +x ./wait-for-it.sh
 COPY --from=fe ./app/build ./frontend/build
 

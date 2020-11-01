@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%d-%m-%Y %H:%M:%S",
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny', ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
