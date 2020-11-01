@@ -1,6 +1,6 @@
 env/*
 postgres_data/*
 minio_data/*
-models/*
+models/*.hdf5
 .idea/*
 book_data/*

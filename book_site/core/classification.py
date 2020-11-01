@@ -42,7 +42,9 @@ def get_topic_distribution(unseen_text):
 
 def convert(text):
     v = get_topic_distribution(text)
-    return np.array([[a[1] for a in v] + [0 for _ in range(6)]])
+    target = [a[1] for a in v]
+    to_add = dimension - len(target)
+    return np.array([target + [0 for _ in range(to_add)]])
 
 
 def classify(book_id):
