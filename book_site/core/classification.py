@@ -64,7 +64,7 @@ def classify(book_id):
     try:
         c = Category.objects.get(name=category)
     except Category.DoesNotExist:
-        c = Category.objects.create(name=cat)
+        c = Category.objects.create(name=category)
     book.categories.add(c)
     book.save()
 
