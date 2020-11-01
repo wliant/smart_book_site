@@ -8,7 +8,7 @@
 
 * copy and paste in /book_site/settings.py
 `ALLOWED_HOSTS = [
-    'fd24df8a5595.ngrok.io',
+    'your forwarding url (e.g fd24df8a5595.ngrok.io)',
     '127.0.0.1',
     'localhost'
 ]`
