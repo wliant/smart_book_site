@@ -1,5 +1,8 @@
 # smart_book_site
 
+#### import /PLP-SmartBookGuide.zip to dialogflow
+
+
 #### to set up ngrok
 * download and run ngrok 
 `ngrok http 8000`
