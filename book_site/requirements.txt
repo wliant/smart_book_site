@@ -8,3 +8,4 @@ djangorestframework-jwt
 spacy
 pandas
 numpy
+gensim

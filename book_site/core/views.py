@@ -12,6 +12,9 @@ from core.recommendation_engine.recommender import *
 from core.classification import classify
 
 
+recommender = RecommendationEngine()
+
+
 class DynamicSearchFilter(filters.SearchFilter):
     def get_search_fields(self, view, request):
         return request.GET.getlist('search_fields', [])
@@ -99,15 +102,16 @@ def create_auth(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_recommendation(request):
-    recommender = RecommendationEngine()
+
     #print('get popular book recommendation: ')
-    titles = recommender.get_popular_recommendation(length = 4, samples = 5000)
+    #titles = recommender.get_popular_recommendation(length = 4, samples = 5000)
     #print('get user preferred book recommendation: ')
     #titles = recommender.get_recommendation_by_categories(categories=['romance'], length = 10)
 
-    books = Book.objects.filter(title__in=titles)
+    #books = Book.objects.filter(title__in=titles)
+    books = Book.objects.all().order_by("-views")[:4]
     serializer = BookSerializer(books, many=True)
-    return JsonResponse(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

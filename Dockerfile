@@ -55,6 +55,8 @@ RUN python -m spacy download en
 #
 #RUN pip install -r requirements.txt
 
+COPY ./book_site/misc/download_nltk.py .
+RUN python download_nltk.py
 COPY ./book_site/ ./
 COPY ./models/ /usr/
 
