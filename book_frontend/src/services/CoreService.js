@@ -20,6 +20,12 @@ export default class CoreService {
         return result.data;
     }
 
+    getBook = async (book_id) => {
+        const result = await axios.get(`${base_url}/books/${book_id}/`, {...this.defaultOptions});
+
+        return result.data;
+    }
+
     // http://localhost:8000/api/bookContents/?search:{id}&search_fields=book__id
     getBookContentsByBookId = async (book_id) => {
         const queryParams = {
@@ -30,7 +36,8 @@ export default class CoreService {
 
         const result = await axios.get(
             `${base_url}/bookContents/`,
-            {...this.defaultOptions,
+            {
+                ...this.defaultOptions,
                 params: queryParams,
             }
         );
@@ -42,12 +49,12 @@ export default class CoreService {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("story_line", storyline);
-        if(thumbnail) {
+        if (thumbnail) {
             formData.append("thumbnail", thumbnail);
         }
 
 
-        const result = await axios.post(`${base_url}/books/`, formData, {...this.defaultOptions });
+        const result = await axios.post(`${base_url}/books/`, formData, {...this.defaultOptions});
 
         return result.data;
     }
@@ -68,7 +75,7 @@ export default class CoreService {
         return result.data;
     }
 
-    createBookContent= async (book_id, content) => {
+    createBookContent = async (book_id, content) => {
         const body = {book: book_id, content: content};
 
         const result = await axios.post(`${base_url}/bookContents/`, body, {...this.defaultOptions});
@@ -77,7 +84,14 @@ export default class CoreService {
     }
 
     categorizeBook = async (book_id) => {
-
+        const queryParams = {
+            book: book_id
+        }
+        const result = await axios.post(
+            `${base_url}/categorize/`,
+            {...this.defaultOptions, params: queryParams}
+        );
+        return result.data;
     }
 
     // http://localhost:8000/api/books/
@@ -106,7 +120,8 @@ export default class CoreService {
         }
         const result = await axios.get(
             `${base_url}/books/`,
-            {...this.defaultOptions,
+            {
+                ...this.defaultOptions,
                 params: queryParams,
                 paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'}),
             }
@@ -119,7 +134,7 @@ export default class CoreService {
             limit: 4
         }
         const result = await axios.get(
-            `${base_url}/books/`,
+            `${base_url}/recommend/`,
             {...this.defaultOptions, params: queryParams}
         );
         return result.data;

@@ -58,6 +58,7 @@ function BookViewer(props) {
     const [previous, setPrevious] = useState("")
     const [pageNum, setPageNum] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
+    const [categories, setCategories] = useState(book.categories);
     const [transitionState, setTransitionState] = useState({
         open: false,
         Transition: Fade,
@@ -112,6 +113,15 @@ function BookViewer(props) {
         }
     };
 
+    const handleCategorize = () => {
+        new CoreService().categorizeBook(book.id).then(e => {
+            new CoreService().getBook(book.id).then(e => {
+                setCategories(e.categories);
+            });
+        });
+    }
+}
+
     const closeSnackBar = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -124,7 +134,7 @@ function BookViewer(props) {
             <Grid item xs={12} spacing={3}>
                 <Grid container justify={"space-between"} spacing={24}>
                     <Typography variant="h6" gutterBottom>
-                        {`${book.title} - ${book.categories.join(", ")}`}
+                        {`${book.title} - ${categories.join(", ")}`}
                     </Typography>
                     <Typography variant="body2">
                         {`${pageNum}/${totalPage}`}
@@ -146,6 +156,7 @@ function BookViewer(props) {
                             size="small"
                             className={classes.hiddenButton}
                             startIcon={<HelpIcon/>}
+                            onClick={handleCategorize}
                         >
                             Categorize
                         </Button>

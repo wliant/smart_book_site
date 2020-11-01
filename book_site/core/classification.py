@@ -24,15 +24,15 @@ dictionary = pickle.load(open("/usr/dictionary.pkl", "rb"))
 model.load_weights(weights_file)
 
 class_mapping = [
-    "adventure",
-    "fantasy",
-    "historical",
-    "horror",
-    "mystery",
-    "romance",
-    "science-fiction",
-    "thriller",
-    "young-adult"
+    "Adventure",
+    "Fantasy",
+    "Historical",
+    "Horror",
+    "Mystery",
+    "Romance",
+    "Science-fiction",
+    "Thriller",
+    "Young-adult"
 ]
 
 def get_topic_distribution(unseen_text):
@@ -56,12 +56,15 @@ def classify(book_id):
 
     print("found category {}".format(category))
 
-    book = Book.object.get(pk=book_id)
+    book = Book.objects.get(pk=book_id)
     before = book.categories.all()
     for cat in before:
         book.categories.remove(cat)
 
-    c = Category.objects.get(name=category)
+    try:
+        c = Category.objects.get(name=category)
+    except Category.DoesNotExist:
+        c = Category.objects.create(name=cat)
     book.categories.add(c)
     book.save()
 
