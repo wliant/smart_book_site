@@ -17,16 +17,17 @@ COPY ./book_frontend/ ./
 RUN yarn build
 
 #tensorflow
-FROM tensorflow/tensorflow:latest
+FROM tensorflow/tensorflow:latest as te
 WORKDIR /usr/src/app
 
 RUN pip install --upgrade pip
 COPY ./book_site/requirements_tensorflow.txt .
 
-RUN pip install -r requirements_tensorflow.txt
+RUN pip install -t /usr/src/app -r requirements_tensorflow.txt
 
 #backend
 FROM python:3.8.3-alpine
+# COPY --from=te /usr/src/app/ /usr/local/lib/python3.8/site-packages
 
 WORKDIR /usr/src/app
 
@@ -50,3 +51,4 @@ RUN pip install -r requirements.txt
 COPY ./book_site/ ./
 RUN chmod +x ./wait-for-it.sh
 COPY --from=fe ./app/build ./frontend/build
+
