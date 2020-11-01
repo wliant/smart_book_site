@@ -100,7 +100,7 @@ def create_auth(request):
 
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def get_recommendation(request):
 
     #print('get popular book recommendation: ')
@@ -115,7 +115,7 @@ def get_recommendation(request):
 
 
 @api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def categorize(request):
     book_id = request.query_params["book"]
     classify(book_id)

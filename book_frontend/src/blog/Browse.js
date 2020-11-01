@@ -57,8 +57,8 @@ function Browse(props) {
                 Recommended for you
             </Typography>
             <Grid container spacing={4} className={classes.grid}>
-                {books.results &&
-                books.results.map((book) => (
+                {books &&
+                books.map((book) => (
                     <BookCard key={book.id} book={book} md={6} minHeight={300} />
                 ))}
             </Grid>

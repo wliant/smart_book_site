@@ -21,6 +21,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Snackbar from "@material-ui/core/Snackbar";
 import Fade from "@material-ui/core/Fade";
 import MuiAlert from "@material-ui/lab/Alert";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -59,6 +60,7 @@ function BookViewer(props) {
     const [pageNum, setPageNum] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
     const [categories, setCategories] = useState(book.categories);
+    const [loading, setLoading] = useState(false);
     const [transitionState, setTransitionState] = useState({
         open: false,
         Transition: Fade,
@@ -114,9 +116,11 @@ function BookViewer(props) {
     };
 
     const handleCategorize = () => {
+        setLoading(true);
         new CoreService().categorizeBook(book.id).then(e => {
             new CoreService().getBook(book.id).then(e => {
                 setCategories(e.categories);
+                setLoading(false);
             });
         });
     };
@@ -157,7 +161,8 @@ function BookViewer(props) {
                             startIcon={<HelpIcon/>}
                             onClick={handleCategorize}
                         >
-                            Categorize
+                            {!loading && ("Categorize")}
+            {loading && (<CircularProgress color="secondary" size={20} />)}
                         </Button>
                     </Grid>)}
             </Grid>

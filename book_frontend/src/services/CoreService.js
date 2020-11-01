@@ -88,8 +88,8 @@ export default class CoreService {
             book: book_id
         }
         const result = await axios.post(
-            `${base_url}/categorize/`,
-            {...this.defaultOptions, params: queryParams}
+            `${base_url}/categorize/?book=${book_id}`, null,
+            {...this.defaultOptions }
         );
         return result.data;
     }
