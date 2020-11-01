@@ -5,3 +5,6 @@ django-cors-headers
 pillow
 six
 djangorestframework-jwt
+spacy
+pandas
+numpy

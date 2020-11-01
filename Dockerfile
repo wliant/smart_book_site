@@ -29,6 +29,7 @@ COPY ./book_site/requirements_tensorflow.txt .
 
 RUN pip install -r requirements_tensorflow.txt
 RUN pip install -r requirements.txt
+RUN python -m spacy download en
 
 #backend
 #FROM python:3.8.3-alpine
@@ -55,7 +56,7 @@ RUN pip install -r requirements.txt
 #RUN pip install -r requirements.txt
 
 COPY ./book_site/ ./
-#COPY ./models/ /usr/
+COPY ./models/ /usr/
 
 RUN chmod +x ./wait-for-it.sh
 COPY --from=fe ./app/build ./frontend/build
