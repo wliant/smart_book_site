@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         float: "right"
     },
     hiddenButton: {
-      margin: theme.spacing(1),
+        margin: theme.spacing(1),
     },
     hiddenMenu: {
         marginBottom: theme.spacing(1)
@@ -89,6 +89,14 @@ function BookViewer(props) {
             setTransitionState({open: true, Transition: Fade, message: "New paragraph added", severity: "success"});
             setDialogOpen(false);
             setParagraph("");
+            let coreService = new CoreService();
+            coreService.getBookContentsByBookId(book.id).then(e => {
+                setResults(e.results);
+                setNext(e.next);
+                setPrevious(e.previous);
+                setPageNum(1);
+                setTotalPage(Math.ceil(e.count * 1.0 / ViewerPageLimit));
+            });
         });
     };
 

@@ -98,10 +98,9 @@ def create_auth(request):
 @permission_classes([permissions.IsAuthenticated])
 def get_recommendation(request):
     books = Book.objects.all().order_by('-views')[:4]
-    results = []
-    for book in books:
-        results.append(BookSerializer(book))
-    return Response(results, status=status.HTTP_200_OK)
+    serializer = BookSerializer(books, many=True)
+
+    return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -110,7 +109,7 @@ def categorize(request):
     book_id = request.query_params["book"]
 
     book = Book.objects.get(pk=book_id)
-    before = book.categories
+    before = book.categories.all()
     for cat in before:
         book.categories.remove(cat)
 
