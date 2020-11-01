@@ -79,7 +79,7 @@ function BookDetail(props) {
     const [reviews, setReviews] = useState([])
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogText, setDialogText] = useState("");
-    const {ReadBook} = React.useContext(NavigationContext);
+    const {ReadBook, EditBook} = React.useContext(NavigationContext);
 
     useEffect(() => {
         loadReviews();
@@ -143,6 +143,7 @@ function BookDetail(props) {
                                 variant="outlined"
                                 size="small"
                                 startIcon={<EditIcon/>}
+                                onClick={() => EditBook(book)}
                             >
                                 Write More
                             </Button>

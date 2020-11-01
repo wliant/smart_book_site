@@ -10,29 +10,60 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import IconButton from "@material-ui/core/IconButton";
 import {ViewerPageLimit} from "./Constants";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import HelpIcon from '@material-ui/icons/Help';
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import TextField from "@material-ui/core/TextField";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import Snackbar from "@material-ui/core/Snackbar";
+import Fade from "@material-ui/core/Fade";
+import MuiAlert from "@material-ui/lab/Alert";
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     left: {
         float: "left"
     },
     right: {
         float: "right"
     },
+    hiddenButton: {
+      margin: theme.spacing(1),
+    },
+    hiddenMenu: {
+        marginBottom: theme.spacing(1)
+    },
     bottomGrid: {
         minHeight: 20
-    }
-});
+    },
+    paragraphTextField: {
+        minWidth: 500
+    },
+}));
 
 
 function BookViewer(props) {
     const classes = useStyles();
-    const {book} = props;
+    const {book, editable} = props;
     const [results, setResults] = useState([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [paragraph, setParagraph] = useState("");
     const [next, setNext] = useState("")
     const [previous, setPrevious] = useState("")
     const [pageNum, setPageNum] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
+    const [transitionState, setTransitionState] = useState({
+        open: false,
+        Transition: Fade,
+        severity: "",
+        message: ""
+    });
 
     useEffect(() => {
         let coreService = new CoreService();
@@ -41,10 +72,25 @@ function BookViewer(props) {
             setNext(e.next);
             setPrevious(e.previous);
             setPageNum(1);
-            setTotalPage(Math.ceil(e.count *1.0 / ViewerPageLimit));
-            coreService.createBookAccess(book.id).then(e => console.log(`book access created ${book.id}`));
+            setTotalPage(Math.ceil(e.count * 1.0 / ViewerPageLimit));
+            if (!editable) {
+                coreService.createBookAccess(book.id).then(e => console.log(`book access created ${book.id}`));
+            }
         });
     }, []);
+
+    const handleDialogCancel = () => {
+        setDialogOpen(false);
+        setParagraph("");
+    };
+
+    const handleDialogConfirm = () => {
+        new CoreService().createBookContent(book.id, paragraph).then(e => {
+            setTransitionState({open: true, Transition: Fade, message: "New paragraph added", severity: "success"});
+            setDialogOpen(false);
+            setParagraph("");
+        });
+    };
 
     const handleNavigate = (pageNum, direction) => {
         if (direction) {
@@ -56,17 +102,46 @@ function BookViewer(props) {
                 window.scrollTo(0, 0);
             });
         }
-    }
+    };
+
+    const closeSnackBar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setTransitionState({open: false, Transition: Fade});
+    };
 
     return (
         <main>
-            <Grid xs={12} container justify={"space-between"} spacing={24}>
-                <Typography variant="h6" gutterBottom>
-                    {book.title}
-                </Typography>
-                <Typography variant="body2">
-                    {`${pageNum}/${totalPage}`}
-                </Typography>
+            <Grid item xs={12} spacing={3}>
+                <Grid container justify={"space-between"} spacing={24}>
+                    <Typography variant="h6" gutterBottom>
+                        {`${book.title} - ${book.categories.join(", ")}`}
+                    </Typography>
+                    <Typography variant="body2">
+                        {`${pageNum}/${totalPage}`}
+                    </Typography>
+                </Grid>
+                {editable && (
+                    <Grid item xs={12} spacing={4} className={classes.hiddenMenu}>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={<AddIcon/>}
+                            className={classes.hiddenButton}
+                            onClick={() => setDialogOpen(true)}
+                        >
+                            Add Paragraph
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            className={classes.hiddenButton}
+                            startIcon={<HelpIcon/>}
+                        >
+                            Categorize
+                        </Button>
+                    </Grid>)}
             </Grid>
             <Divider/>
             {results && results.map((result) => (
@@ -86,12 +161,44 @@ function BookViewer(props) {
                     </IconButton>
                 )} {!next && (<Link className={classes.right}/>)}
             </Grid>
+            <Dialog open={dialogOpen}>
+                <DialogTitle>Add new paragraph</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        className={classes.paragraphTextField}
+                        margin="dense"
+                        multiline
+                        variant="outlined"
+                        value={paragraph}
+                        onChange={(e) => setParagraph(e.target.value)}
+                        label="New Paragraph"/>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="primary" onClick={handleDialogCancel}>
+                        Cancel
+                    </Button>
+                    <Button color="primary" onClick={handleDialogConfirm}>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Snackbar
+                open={transitionState.open}
+                onClose={closeSnackBar}
+                TransitionComponent={transitionState.Transition}
+                autoHideDuration={3500}
+            >
+                <Alert onClose={closeSnackBar} severity={transitionState.severity}>
+                    {transitionState.message}
+                </Alert>
+            </Snackbar>
         </main>
     );
 }
 
 BookViewer.propTypes = {
     book: PropTypes.any.isRequired,
+    editable: PropTypes.bool
 };
 
 export default BookViewer;

@@ -68,6 +68,18 @@ export default class CoreService {
         return result.data;
     }
 
+    createBookContent= async (book_id, content) => {
+        const body = {book: book_id, content: content};
+
+        const result = await axios.post(`${base_url}/bookContents/`, body, {...this.defaultOptions});
+
+        return result.data;
+    }
+
+    categorizeBook = async (book_id) => {
+
+    }
+
     // http://localhost:8000/api/books/
     // http://localhost:8000/api/books/?search=adventure&search_fields=categories__name
     getBooks = async (field, text) => {

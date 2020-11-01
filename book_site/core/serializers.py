@@ -31,6 +31,8 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class BookContentSerializer(serializers.ModelSerializer):
+    sequence_num = serializers.ReadOnlyField()
+
     class Meta:
         model = BookContent
         fields = "__all__"

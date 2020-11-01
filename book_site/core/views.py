@@ -92,3 +92,31 @@ def create_auth(request):
         return Response(serialized.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_recommendation(request):
+    books = Book.objects.all().order_by('-views')[:4]
+    results = []
+    for book in books:
+        results.append(BookSerializer(book))
+    return Response(results, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def categorize(request):
+    book_id = request.query_params["book"]
+
+    book = Book.objects.get(pk=book_id)
+    before = book.categories
+    for cat in before:
+        book.categories.remove(cat)
+
+    c = Category.objects.get(name="Fantasy")
+    book.categories.add(c)
+    book.save()
+    print("categorized")
+
+    return HttpResponse(status=200)

@@ -33,8 +33,11 @@ export default function Blog() {
             setNavigationState({name: "bookDetail", data: book});
         },
         ReadBook: (book) => {
-            setNavigationState({name: "bookView", data: book})
-        }
+            setNavigationState({name: "bookView", data: book});
+        },
+        EditBook: (book) => {
+            setNavigationState( {name: "bookEdit", data: book });
+        },
     }
 
     const renderMain = (state) => {
@@ -46,7 +49,9 @@ export default function Blog() {
             case 'bookDetail':
                 return (<BookDetail book={state.data} />);
             case 'bookView':
-                return (<BookViewer book={state.data} />);
+                return (<BookViewer editable={false} book={state.data} />);
+            case 'bookEdit':
+                return (<BookViewer editable={true} book={state.data} />);
             default:
                 return "";
         }

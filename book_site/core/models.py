@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 
 
 class BookAccess(models.Model):
@@ -54,6 +55,15 @@ class BookContent(models.Model):
     book = models.ForeignKey(Book, related_name='paragraphs', on_delete=models.CASCADE, db_index=True)
     sequence_num = models.IntegerField()
     content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            seq = BookContent.objects.filter(book__id=self.book.id).aggregate(Max('sequence_num'))['sequence_num__max']
+            if seq:
+                self.sequence_num = seq + 1
+            else:
+                self.sequence_num = 1
+        super(BookContent, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['sequence_num']
