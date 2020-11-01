@@ -1,5 +1,19 @@
 # smart_book_site
 
+#### to set up ngrok
+* download and run ngrok 
+`ngrok http 8000`
+
+* copy forwarding https url to dialogflow console-> Fulfillment -> webhook -> URL, save changes
+
+* copy and paste in /book_site/settings.py
+`ALLOWED_HOSTS = [
+    'fd24df8a5595.ngrok.io',
+    '127.0.0.1',
+    'localhost'
+]`
+
+
 #### to start server
 `docker-compose up --build -d`
 
