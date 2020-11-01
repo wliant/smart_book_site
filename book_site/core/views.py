@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import filters
 from core.recommendation_engine.recommender import *
+from core.classification import classify
 
 
 class DynamicSearchFilter(filters.SearchFilter):
@@ -20,12 +21,6 @@ class BookViewSet(viewsets.ModelViewSet):
     filter_backends = (DynamicSearchFilter,)
     queryset = Book.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
-
-    recommender = RecommendationEngine()
-    print('get popular book recommendation: ')
-    print(recommender.get_popular_recommendation(length = 10, samples = 5000))
-    print('get user preferred book recommendation: ')
-    print(recommender.get_recommendation_by_categories(categories=['romance'], length = 10))
 
     def get_serializer_class(self):
         return BookSerializer
@@ -104,26 +99,21 @@ def create_auth(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_recommendation(request):
-    books = Book.objects.all().order_by('-views')[:4]
-    results = []
-    for book in books:
-        results.append(BookSerializer(book))
-    return Response(results, status=status.HTTP_200_OK)
+    recommender = RecommendationEngine()
+    #print('get popular book recommendation: ')
+    titles = recommender.get_popular_recommendation(length = 4, samples = 5000)
+    #print('get user preferred book recommendation: ')
+    #titles = recommender.get_recommendation_by_categories(categories=['romance'], length = 10)
+
+    books = Book.objects.filter(title__in=titles)
+    serializer = BookSerializer(books, many=True)
+    return JsonResponse(serializer.data)
 
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def categorize(request):
     book_id = request.query_params["book"]
-
-    book = Book.objects.get(pk=book_id)
-    before = book.categories
-    for cat in before:
-        book.categories.remove(cat)
-
-    c = Category.objects.get(name="Fantasy")
-    book.categories.add(c)
-    book.save()
+    classify(book_id)
     print("categorized")
-
     return HttpResponse(status=200)
