@@ -28,7 +28,7 @@ const posts = ["Not surprisingly, Peter's iPhone now pinged with an incoming rep
 
 function Browse(props) {
     const classes = useStyles();
-    const [books, setBooks] = useState({});
+    const [books, setBooks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
