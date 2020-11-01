@@ -10,7 +10,7 @@ import numpy as np
 #4. Integration: function to use: evaluate_review, need to doc = nlp(review) first. For some strange reason, cannot put into the evaluate_review function 
 
 #Load Pre-Trained SPacy model
-output_dir = "Output\my_nlp_sm"
+output_dir = "/usr/my_nlp_sm"
 my_nlp = spacy.load(output_dir)
 
 nlp = spacy.load('en')
@@ -60,4 +60,4 @@ def evaluate_review(review):
 
 def evaluate_review_text(review_text):
     doc = nlp(review_text)
-    evaluate_review(doc)
+    return evaluate_review(doc)
